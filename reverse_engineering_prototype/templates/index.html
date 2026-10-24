@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReverseIQ — Software Reverse Engineering</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">R</span><span>Reverse<span class="brand-light">IQ</span></span></div>
+    <div class="workspace-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="overview"><span>◫</span> Overview</button>
+    <button class="nav-item" data-view="analysis"><span>⌘</span> Code Analysis</button>
+    <button class="nav-item" data-view="diagrams"><span>◇</span> UML Explorer</button>
+    <button class="nav-item" data-view="reports"><span>▤</span> Reports</button>
+    <div class="sidebar-bottom">
+      <div class="status-dot"></div>
+      <div><strong>Local analysis engine</strong><small>Ready to analyze</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">Workspace <span>/</span> <strong id="crumb-current">Overview</strong></div>
+      <div class="top-actions"><span class="secure-pill"><i></i> Runs locally</span><div class="avatar">VI</div></div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line"></span> SOFTWARE INTELLIGENCE WORKSPACE</div>
+        <h1>Understand the code.<br><span>Recover the design.</span></h1>
+        <p class="hero-copy">Analyze Java source code to uncover classes, methods, relationships, and documentation gaps — all from one workspace.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="jump-upload">＋ Analyze source code <span>→</span></button>
+          <button class="secondary-btn" id="demo-btn">Explore sample project</button>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Decorative software architecture visualization">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="art-node node-a"><b>CLASS</b><span>Student</span><small>+ register()</small></div>
+        <div class="art-node node-b"><b>INTERFACE</b><span>Payable</span><small>+ calculate()</small></div>
+        <div class="art-node node-c"><b>CLASS</b><span>Course</span><small>+ getName()</small></div>
+        <div class="art-center"><span>R</span><small>CODE<br>INSIGHTS</small></div>
+        <div class="connector connector-a"></div><div class="connector connector-b"></div>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card"><div class="stat-top"><span>CLASSES FOUND</span><span class="stat-icon violet">▦</span></div><div class="stat-number" id="stat-classes">—</div><div class="stat-foot">Recovered from source</div></article>
+      <article class="stat-card"><div class="stat-top"><span>METHODS FOUND</span><span class="stat-icon blue">⌘</span></div><div class="stat-number" id="stat-methods">—</div><div class="stat-foot">Operations identified</div></article>
+      <article class="stat-card"><div class="stat-top"><span>RELATIONSHIPS</span><span class="stat-icon green">↗</span></div><div class="stat-number" id="stat-relations">—</div><div class="stat-foot">Links between types</div></article>
+      <article class="stat-card"><div class="stat-top"><span>DOC. WARNINGS</span><span class="stat-icon amber">!</span></div><div class="stat-number" id="stat-warnings">—</div><div class="stat-foot">Items to review</div></article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel upload-panel" id="upload-section">
+        <div class="panel-heading"><div><div class="section-kicker">GET STARTED</div><h2>Analyze a Java project</h2></div><span class="panel-symbol">↥</span></div>
+        <p class="muted">Upload one <code>.java</code> source file to extract its design structure. Files are processed by your local Flask backend.</p>
+        <form id="upload-form">
+          <label class="drop-zone" id="drop-zone" for="java-file">
+            <div class="upload-icon">↑</div>
+            <strong>Drop your Java file here</strong>
+            <span>or <em>browse files</em></span>
+            <small>JAVA SOURCE · MAX 2 MB</small>
+            <input id="java-file" name="file" type="file" accept=".java,text/x-java-source" required>
+          </label>
+          <div class="selected-file" id="selected-file">No file selected</div>
+          <button class="primary-btn full-btn" type="submit" id="analyze-btn">Run analysis <span>→</span></button>
+          <div class="form-message" id="form-message" role="status"></div>
+        </form>
+      </article>
+
+      <article class="panel recent-panel">
+        <div class="panel-heading"><div><div class="section-kicker">WORKFLOW</div><h2>Analysis pipeline</h2></div><span class="live-label"><i></i> READY</span></div>
+        <div class="pipeline">
+          <div class="pipeline-item"><div class="pipeline-icon">01</div><div><strong>Source ingestion</strong><p>Read and validate the Java file.</p></div><span class="pipeline-check">✓</span></div>
+          <div class="pipeline-item"><div class="pipeline-icon">02</div><div><strong>Structure extraction</strong><p>Find types, fields, and methods.</p></div><span class="pipeline-check">✓</span></div>
+          <div class="pipeline-item"><div class="pipeline-icon">03</div><div><strong>Relationship mapping</strong><p>Inspect inheritance and references.</p></div><span class="pipeline-check">✓</span></div>
+          <div class="pipeline-item"><div class="pipeline-icon">04</div><div><strong>Report generation</strong><p>Summarize findings and warnings.</p></div><span class="pipeline-pending">●</span></div>
+        </div>
+        <div class="privacy-note"><span>♧</span><div><strong>Privacy-first prototype</strong><p>Source files are analyzed in memory and are not saved to disk.</p></div></div>
+      </article>
+    </section>
+
+    <section class="results-section hidden" id="results-section">
+      <div class="results-heading"><div><div class="section-kicker">ANALYSIS COMPLETE</div><h2 id="result-title">Recovered software structure</h2><p class="muted" id="result-subtitle">Results generated from the selected source.</p></div><button class="secondary-btn" id="download-report">↓ Export report</button></div>
+      <div class="results-tabs">
+        <button class="result-tab active" data-tab="classes">Classes & methods</button>
+        <button class="result-tab" data-tab="uml">UML explorer</button>
+        <button class="result-tab" data-tab="warnings">Documentation report</button>
+      </div>
+      <div class="result-view" id="view-classes"></div>
+      <div class="result-view hidden" id="view-uml"></div>
+      <div class="result-view hidden" id="view-warnings"></div>
+      <p class="parser-note" id="parser-note"></p>
+    </section>
+
+    <footer><span>ReverseIQ <span class="footer-dot">•</span> Student prototype</span><span>Software Reverse Engineering & Documentation Recovery</span></footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
